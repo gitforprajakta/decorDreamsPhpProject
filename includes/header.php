@@ -1,6 +1,7 @@
 <?php
 $current_page = basename($_SERVER['PHP_SELF'], '.php');
 if ($current_page === 'index') $current_page = 'home';
+require_once __DIR__ . '/auth.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,6 +27,12 @@ if ($current_page === 'index') $current_page = 'home';
         <a href="products.php" class="<?php echo $current_page === 'products' ? 'active' : ''; ?>">Products &amp; Services</a>
         <a href="news.php" class="<?php echo $current_page === 'news' ? 'active' : ''; ?>">News</a>
         <a href="contacts.php" class="<?php echo $current_page === 'contacts' ? 'active' : ''; ?>">Contacts</a>
+        <?php if (is_admin_logged_in()): ?>
+          <a href="users.php" class="<?php echo $current_page === 'users' ? 'active' : ''; ?>">Secure</a>
+          <a href="logout.php">Logout</a>
+        <?php else: ?>
+          <a href="login.php" class="<?php echo $current_page === 'login' ? 'active' : ''; ?>">Login</a>
+        <?php endif; ?>
       </nav>
     </div>
   </header>
