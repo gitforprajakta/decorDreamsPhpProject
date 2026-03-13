@@ -1,6 +1,7 @@
 <?php
 $current_page = basename($_SERVER['PHP_SELF'], '.php');
 if ($current_page === 'index') $current_page = 'home';
+if (in_array($current_page, ['product', 'recent'], true)) $current_page = 'products';
 require_once __DIR__ . '/auth.php';
 ?>
 <!DOCTYPE html>
