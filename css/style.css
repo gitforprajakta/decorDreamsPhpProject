@@ -456,6 +456,126 @@ a:hover {
   word-wrap: break-word;
 }
 
+/* User database pages */
+.user-action-grid .card-body h2 {
+  margin-top: 0;
+}
+
+.form-panel {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+}
+
+.user-form .form-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.user-form .form-group {
+  margin-bottom: 1.25rem;
+}
+
+.user-form label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+  color: var(--color-charcoal);
+}
+
+.user-form input,
+.user-form textarea {
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--color-sand);
+  border-radius: var(--radius);
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+.user-form input:focus,
+.user-form textarea:focus {
+  outline: none;
+  border-color: var(--color-sage);
+  box-shadow: 0 0 0 2px rgba(139, 154, 122, 0.2);
+}
+
+.form-submit {
+  display: inline-block;
+  padding: 0.75rem 1.35rem;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--color-sage);
+  color: #fff !important;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 600;
+}
+
+.form-submit:hover {
+  background: var(--color-charcoal);
+}
+
+.form-message {
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius);
+  margin-bottom: 1rem;
+}
+
+.form-message ul {
+  margin: 0.5rem 0 0;
+}
+
+.success-message {
+  background: #d4edda;
+  color: #155724;
+}
+
+.error-message {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+}
+
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 860px;
+}
+
+.users-table th,
+.users-table td {
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--color-sand);
+  text-align: left;
+  vertical-align: top;
+}
+
+.users-table th {
+  background: var(--color-sand);
+  color: var(--color-charcoal);
+  font-weight: 600;
+}
+
+.users-table tr:last-child td {
+  border-bottom: none;
+}
+
+@media (max-width: 700px) {
+  .user-form .form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+
 /* Utility */
 .text-center { text-align: center; }
 .mb-0 { margin-bottom: 0; }

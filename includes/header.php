@@ -2,6 +2,7 @@
 $current_page = basename($_SERVER['PHP_SELF'], '.php');
 if ($current_page === 'index') $current_page = 'home';
 if (in_array($current_page, ['product', 'recent'], true)) $current_page = 'products';
+if (in_array($current_page, ['user_create', 'user_search'], true)) $current_page = 'user';
 require_once __DIR__ . '/auth.php';
 ?>
 <!DOCTYPE html>
@@ -26,6 +27,7 @@ require_once __DIR__ . '/auth.php';
         <a href="index.php" class="<?php echo $current_page === 'home' ? 'active' : ''; ?>">Home</a>
         <a href="about.php" class="<?php echo $current_page === 'about' ? 'active' : ''; ?>">About</a>
         <a href="products.php" class="<?php echo $current_page === 'products' ? 'active' : ''; ?>">Products &amp; Services</a>
+        <a href="user.php" class="<?php echo $current_page === 'user' ? 'active' : ''; ?>">User</a>
         <a href="news.php" class="<?php echo $current_page === 'news' ? 'active' : ''; ?>">News</a>
         <a href="contacts.php" class="<?php echo $current_page === 'contacts' ? 'active' : ''; ?>">Contacts</a>
         <?php if (is_admin_logged_in()): ?>
