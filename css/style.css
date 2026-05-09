@@ -188,6 +188,11 @@ a:hover {
 .card-body { padding: 1.25rem; }
 .card-body h3 { margin: 0 0 0.5rem; font-size: 1.2rem; }
 .card-body p { margin: 0; color: var(--color-muted); font-size: 0.95rem; }
+.card-body .visit-count {
+  margin-top: 0.5rem;
+  font-weight: 600;
+  color: var(--color-sage);
+}
 .card-cta {
   display: inline-block;
   margin-top: 0.5rem;

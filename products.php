@@ -8,7 +8,10 @@ require_once __DIR__ . '/includes/products_data.php';
 
 <p class="section-block">We offer a wide range of home décor products and design services to help you create the space you've always wanted.</p>
 
-<p class="recent-link-wrap"><a href="recent.php" class="recent-link">View your last 5 visited products &rarr;</a></p>
+<p class="recent-link-wrap">
+  <a href="recent.php" class="recent-link">View your last 5 visited products &rarr;</a>
+  <a href="top_products.php" class="recent-link">Top 5 most visited products &rarr;</a>
+</p>
 
 <section class="section-block">
   <h2>Our Products &amp; Services</h2>

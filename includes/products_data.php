@@ -72,6 +72,74 @@ function get_product($id) {
     return isset($PRODUCTS[$id]) ? $PRODUCTS[$id] : null;
 }
 
+function get_product_visit_counts() {
+    $file = dirname(__DIR__) . '/data/product_visits.json';
+    if (!file_exists($file)) return [];
+
+    $handle = @fopen($file, 'r');
+    if (!$handle) return [];
+
+    flock($handle, LOCK_SH);
+    $contents = stream_get_contents($handle);
+    flock($handle, LOCK_UN);
+    fclose($handle);
+
+    $counts = json_decode($contents, true);
+    if (!is_array($counts)) return [];
+
+    $clean_counts = [];
+    foreach ($counts as $product_id => $count) {
+        $product_id = (int) $product_id;
+        $count = (int) $count;
+        if ($product_id > 0 && $count > 0 && get_product($product_id)) {
+            $clean_counts[$product_id] = $count;
+        }
+    }
+
+    return $clean_counts;
+}
+
+function increment_product_visit_count($product_id) {
+    $product_id = (int) $product_id;
+    if ($product_id < 1 || !get_product($product_id)) return;
+
+    $file = dirname(__DIR__) . '/data/product_visits.json';
+    $handle = @fopen($file, 'c+');
+    if (!$handle) return;
+
+    flock($handle, LOCK_EX);
+    $contents = stream_get_contents($handle);
+    $counts = json_decode($contents, true);
+    if (!is_array($counts)) $counts = [];
+
+    $counts[$product_id] = isset($counts[$product_id]) ? (int) $counts[$product_id] + 1 : 1;
+
+    rewind($handle);
+    ftruncate($handle, 0);
+    fwrite($handle, json_encode($counts, JSON_PRETTY_PRINT));
+    fflush($handle);
+    flock($handle, LOCK_UN);
+    fclose($handle);
+}
+
+function get_top_visited_products($limit = 5) {
+    $counts = get_product_visit_counts();
+    arsort($counts);
+
+    $top_products = [];
+    foreach ($counts as $product_id => $count) {
+        $product = get_product($product_id);
+        if ($product) {
+            $product['visit_count'] = (int) $count;
+            $top_products[] = $product;
+        }
+
+        if (count($top_products) >= $limit) break;
+    }
+
+    return $top_products;
+}
+
 function get_recent_product_ids_from_cookie() {
     if (empty($_COOKIE['recent_products'])) return [];
     $ids = array_map('intval', array_filter(explode(',', $_COOKIE['recent_products'])));
