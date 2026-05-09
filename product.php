@@ -9,8 +9,9 @@ if (!$product) {
     exit;
 }
 
-// Track this product in "last 5 visited" cookie
+// Track product views for recent and top visited product lists.
 update_recent_products_cookie($id);
+increment_product_visit_count($id);
 
 $page_title = $product['name'];
 require_once __DIR__ . '/includes/header.php';

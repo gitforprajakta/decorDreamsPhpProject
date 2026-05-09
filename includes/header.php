@@ -1,7 +1,7 @@
 <?php
 $current_page = basename($_SERVER['PHP_SELF'], '.php');
 if ($current_page === 'index') $current_page = 'home';
-if (in_array($current_page, ['product', 'recent'], true)) $current_page = 'products';
+if (in_array($current_page, ['product', 'recent', 'top_products'], true)) $current_page = 'products';
 if (in_array($current_page, ['user_create', 'user_search'], true)) $current_page = 'user';
 require_once __DIR__ . '/auth.php';
 ?>
