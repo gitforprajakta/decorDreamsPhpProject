@@ -4,6 +4,8 @@ if ($current_page === 'index') $current_page = 'home';
 if (in_array($current_page, ['product', 'recent'], true)) $current_page = 'products';
 if (in_array($current_page, ['user_create', 'user_search'], true)) $current_page = 'user';
 require_once __DIR__ . '/auth.php';
+require_once __DIR__ . '/marketplace_partner_visit.php';
+marketplace_partner_report_visit_to_hub();
 ?>
 <!DOCTYPE html>
 <html lang="en">

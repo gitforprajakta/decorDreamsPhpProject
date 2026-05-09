@@ -87,4 +87,68 @@ function update_recent_products_cookie($product_id) {
     $recent = array_unique($recent);
     $recent = array_slice(array_values($recent), 0, 5);
     setcookie('recent_products', implode(',', $recent), time() + 30 * 24 * 3600, '/');
+    decor_aggregate_increment_product($product_id);
+}
+
+function decor_aggregate_storage_path(): string {
+    return __DIR__ . '/../data/decor_product_counts.json';
+}
+
+function decor_aggregate_increment_product(int $productId): void {
+    if ($productId < 1) return;
+    $path = decor_aggregate_storage_path();
+    $dir = dirname($path);
+    if (!is_dir($dir)) {
+        mkdir($dir, 0755, true);
+    }
+    $fp = fopen($path, 'c+');
+    if ($fp === false) {
+        return;
+    }
+    try {
+        flock($fp, LOCK_EX);
+        $counts = [];
+        $stat = fstat($fp);
+        if ($stat && $stat['size'] > 0) {
+            rewind($fp);
+            $raw = stream_get_contents($fp);
+            $decoded = $raw !== false && $raw !== '' ? json_decode($raw, true) : [];
+            if (is_array($decoded)) {
+                $counts = array_map('intval', $decoded);
+            }
+        }
+        $counts[(string) $productId] = ($counts[(string) $productId] ?? 0) + 1;
+        ftruncate($fp, 0);
+        rewind($fp);
+        fwrite($fp, json_encode($counts));
+        fflush($fp);
+    } finally {
+        flock($fp, LOCK_UN);
+        fclose($fp);
+    }
+}
+
+/** @return array<string, int> */
+function decor_aggregate_load_counts(): array {
+    $path = decor_aggregate_storage_path();
+    if (!is_file($path)) {
+        return [];
+    }
+    $raw = file_get_contents($path);
+    if ($raw === false || $raw === '') {
+        return [];
+    }
+    $data = json_decode($raw, true);
+    return is_array($data) ? array_map('intval', $data) : [];
+}
+
+/** @return list<int> */
+function decor_top_product_ids(int $limit = 5): array {
+    $counts = decor_aggregate_load_counts();
+    if ($counts === []) {
+        return [];
+    }
+    arsort($counts);
+    $keys = array_slice(array_keys($counts), 0, max(1, $limit));
+    return array_map('intval', $keys);
 }
